@@ -1,3 +1,46 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+/*.launch
+.settings/
+/*.sublime-project
+/*.sublime-workspace
+/.vscode
+
+# Angular
+/angular.json
+/.angular
+
+# Compiled output
+/dist
+/out-tsc
+/build
+
+# Miscellaneous
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+
 # Logs
 logs
 *.log
