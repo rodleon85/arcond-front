@@ -1,0 +1,95 @@
+<mat-toolbar>
+    <span>Cadastro de Equipamentos</span>
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+        <form (ngSubmit)="onSubmit()" #equipmentForm="ngForm">
+            <div class="select-container">
+                <mat-form-field>
+                    <mat-label>Marca</mat-label>
+                    <mat-select required [(ngModel)]="equipment.brand" name="brand">
+                        <mat-option *ngFor="let brand of brands" [value]="brand">{{brand.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Tipo</mat-label>
+                    <mat-select required [(ngModel)]="equipment.type" name="type">
+                        <mat-option *ngFor="let type of types" [value]="type">{{type.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Modelo</mat-label>
+                    <mat-select required [(ngModel)]="equipment.model" name="model">
+                        <mat-option *ngFor="let model of models" [value]="model">{{model.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Potência</mat-label>
+                    <mat-select required [(ngModel)]="equipment.power" name="power">
+                        <mat-option *ngFor="let power of powers" [value]="power">{{power.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <mat-error *ngIf="errorMessage!=''">
+                {{errorMessage}}
+            </mat-error>
+            <div class="button-container" style="display: flex; justify-content: flex-end;">
+                <button mat-raised-button type="reset" color="grey" class="button-margin">Limpar</button>
+                <button mat-raised-button type="submit" color="primary" class="button-margin">Salvar</button>
+              </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+<div class="mat-elevation-z8">
+    <div class="filter-container">
+        <mat-form-field class="small-input">
+            <input matInput #filtro (keyup)="filtrar($event)" placeholder="Filtrar">
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="filtro.value=''; filtrar($event)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="marca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+            <td mat-cell *matCellDef="let element"> {{element.brand.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+            <td mat-cell *matCellDef="let element"> {{element.type.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="modelo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Modelo </th>
+            <td mat-cell *matCellDef="let element"> {{element.model.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="potencia">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Potencia </th>
+            <td mat-cell *matCellDef="let element"> {{element.power.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button (click)="edit(element)"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button (click)="remove(element.id)" color="accent"><mat-icon>delete</mat-icon></button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>

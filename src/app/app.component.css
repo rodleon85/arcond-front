@@ -1,0 +1,25 @@
+
+.navbar {
+    justify-content: space-between;
+}
+
+mat-sidenav-container {
+    height: 100%;
+}
+
+mat-sidenav, mat-sidenav-content {
+    padding: 5px;
+}
+
+mat-expansion-panel {
+    background-color: lightgray;
+}
+
+mat-sidenav {
+    background-color: lightgray;
+    width: 30%;
+}
+
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+}

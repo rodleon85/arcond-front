@@ -1,0 +1,63 @@
+<mat-toolbar>
+    <span>Cadastro de Modelos</span>
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Modelo</mat-label>
+        <input matInput required minlength="3" [(ngModel)]="model.name" name="name">
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="discard()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="errorMessage!=''">
+        {{errorMessage}}
+        </mat-error>
+      </mat-form-field>
+      <div style="display: flex; justify-content: flex-end;">
+        <button mat-raised-button type="submit" color="primary">Salvar</button>
+      </div>
+    </form>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="mat-elevation-z8">
+    <div class="filter-container">
+        <mat-form-field class="small-input">
+        <input matInput #filtro (keyup)="filtrar($event)" placeholder="Filtrar">
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="filtro.value=''; filtrar($event)">
+            <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Position Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Id. </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef> Ações </th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="edit(element)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="remove(element.id)" color="accent"><mat-icon>delete</mat-icon></button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>

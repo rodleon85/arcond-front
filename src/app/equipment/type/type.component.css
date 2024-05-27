@@ -1,0 +1,12 @@
+.filter-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.small-input {
+    width: 40%; /* Adjust the width as needed */
+    margin-bottom: 0px;
+}
