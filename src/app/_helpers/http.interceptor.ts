@@ -14,9 +14,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(private storageService: StorageService, private eventBusService: EventBusService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const authToken = this.storageService.getToken();
-    console.log('Auth Token:', authToken);
-
     req = req.clone({
       withCredentials: true,
     });

@@ -14,6 +14,10 @@ import { ModelComponent } from './equipment/model/model.component';
 import { PowerComponent } from './equipment/power/power.component';
 import { TypeComponent } from './equipment/type/type.component';
 import { NewRegisterComponent } from './new-register/new-register.component';
+import { ContractComponent } from './contract/contract.component';
+import { UserContractComponent } from './user-contract/user-contract.component';
+import { NewContractComponent } from './new-contract/new-contract.component';
+import { CustomerContractComponent } from './customer-contract/customer-contract.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -28,6 +32,10 @@ const routes: Routes = [
   { path: 'model', component: ModelComponent },
   { path: 'power', component: PowerComponent },
   { path: 'type', component: TypeComponent },
+  { path: 'contracts', component: ContractComponent },
+  { path: 'newcontract', component: NewContractComponent },
+  { path: 'mycontracts', component: UserContractComponent },
+  { path: 'usercontract', component: CustomerContractComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 

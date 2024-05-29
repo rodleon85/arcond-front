@@ -8,26 +8,26 @@
             <div class="select-container">
                 <mat-form-field>
                     <mat-label>Marca</mat-label>
-                    <mat-select required [(ngModel)]="equipment.brand" name="brand">
-                        <mat-option *ngFor="let brand of brands" [value]="brand">{{brand.name}}</mat-option>
+                    <mat-select required [(ngModel)]="equipment.brand.id" name="brand">
+                        <mat-option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Tipo</mat-label>
-                    <mat-select required [(ngModel)]="equipment.type" name="type">
-                        <mat-option *ngFor="let type of types" [value]="type">{{type.name}}</mat-option>
+                    <mat-select required [(ngModel)]="equipment.type.id" name="type">
+                        <mat-option *ngFor="let type of types" [value]="type.id">{{type.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Modelo</mat-label>
-                    <mat-select required [(ngModel)]="equipment.model" name="model">
-                        <mat-option *ngFor="let model of models" [value]="model">{{model.name}}</mat-option>
+                    <mat-select required [(ngModel)]="equipment.model.id" name="model">
+                        <mat-option *ngFor="let model of models" [value]="model.id">{{model.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Potência</mat-label>
-                    <mat-select required [(ngModel)]="equipment.power" name="power">
-                        <mat-option *ngFor="let power of powers" [value]="power">{{power.name}}</mat-option>
+                    <mat-select required [(ngModel)]="equipment.power.id" name="power">
+                        <mat-option *ngFor="let power of powers" [value]="power.id">{{power.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>

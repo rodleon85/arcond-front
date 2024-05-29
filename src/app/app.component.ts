@@ -51,8 +51,10 @@ export class AppComponent {
   logout(): void {
     this.storageService.clean();
     this.isLoggedIn = false;
+    this.opened = false;
     this.username = '';
-    this.router.navigate(['/']); // navigate to home page
+    this.router.navigate(['']);
+    window.location.reload(); // navigate to home page
   }
 
 }

@@ -13,7 +13,7 @@
 
 <mat-sidenav-container>
   <mat-sidenav mode="side" [(opened)]="opened">
-    <button mat-button [routerLink]="['/admin']" *ngIf="userRights">Meus Contratos</button><br/>
+    <button mat-button [routerLink]="['/mycontracts']" *ngIf="userRights">Meus Contratos</button><br/>
     <button mat-button [routerLink]="['/register']" *ngIf="userRights">Meus Dados</button><br/>
     
     <mat-expansion-panel *ngIf="adminRights || moderatorRights">
@@ -22,8 +22,8 @@
           Contratos
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <button mat-button [routerLink]="['/eqp']">Lista</button>
-      <button mat-button [routerLink]="['/register']">Cadastrar</button>
+      <button mat-button [routerLink]="['/contracts']">Lista</button>
+      <button mat-button [routerLink]="['/newcontract']">Cadastrar</button>
     </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="adminRights || moderatorRights">
@@ -46,14 +46,12 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <button mat-button [routerLink]="['/register']">Cadastrar</button>
-      <button mat-button [routerLink]="['/eqp']">Vincular a Contrato</button>
+      <button mat-button [routerLink]="['/usercontract']">Vincular a Contrato</button>
     </mat-expansion-panel>
 
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="container">
-      <mat-spinner *ngIf="showSpinner"></mat-spinner>
-      <router-outlet></router-outlet>
-    </div>
+    <app-spinner></app-spinner>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

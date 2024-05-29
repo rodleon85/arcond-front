@@ -22,6 +22,11 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { NewRegisterComponent } from './new-register/new-register.component';
+import { ContractComponent } from './contract/contract.component';
+import { UserContractComponent } from './user-contract/user-contract.component';
+import { NewContractComponent } from './new-contract/new-contract.component';
+import { CustomerContractComponent } from './customer-contract/customer-contract.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 
@@ -40,7 +45,12 @@ import { NewRegisterComponent } from './new-register/new-register.component';
     ModelComponent,
     PowerComponent,
     EquipmentComponent,
-    NewRegisterComponent
+    NewRegisterComponent,
+    ContractComponent,
+    UserContractComponent,
+    NewContractComponent,
+    CustomerContractComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

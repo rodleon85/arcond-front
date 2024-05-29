@@ -8,6 +8,7 @@ import { EqType } from '../_models/EqType';
 import { EqBrand } from '../_models/EqBrand';
 import { EqPower } from '../_models/EqPower';
 import { EqModel } from '../_models/EqModel';
+import { SpinnerService } from '../_services/spinner.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class EquipmentComponent implements OnInit {
 
   constructor(
     private equipmentService: EquipmentService,
+    private spinnerService: SpinnerService,
   ) {
     this.equipment = new Equipment(0, new EqModel(0, ''), new EqType(0, ''), new EqBrand(0, ''), new EqPower(0, ''));
   }
@@ -40,6 +42,11 @@ export class EquipmentComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource.filterPredicate = this.createFilter();
     this.reloadDataSource();
+    this.spinnerService.show();
+    // Simulate a delay
+    setTimeout(() => {
+      this.spinnerService.hide();
+    }, 3000);
   }
 
   createFilter(): (data: Equipment, filter: string) => boolean {
@@ -84,7 +91,6 @@ export class EquipmentComponent implements OnInit {
   }
 
   edit(equipment: Equipment): void {
-    console.log('Equipment', equipment);
     this.equipment = equipment;
   }
 
