@@ -13,6 +13,9 @@ import { MatTableModule } from '@angular/material/table'; // Add this line
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator'; // Add this line
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const MaterialComponents = [
   MatSidenavModule,
@@ -28,7 +31,10 @@ const MaterialComponents = [
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
-  MatSelectModule
+  MatSelectModule,
+  MatStepperModule,
+  MatDividerModule,
+  MatCheckboxModule,
 ]
 
 @NgModule({

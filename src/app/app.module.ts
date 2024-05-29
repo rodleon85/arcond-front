@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +27,9 @@ import { UserContractComponent } from './user-contract/user-contract.component';
 import { NewContractComponent } from './new-contract/new-contract.component';
 import { CustomerContractComponent } from './customer-contract/customer-contract.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { provideNgxMask, NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+
+import { CpfCnpjMaskDirective } from './_shared/cpf-cnpj-mask.directive';
 
 
 
@@ -50,7 +53,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     UserContractComponent,
     NewContractComponent,
     CustomerContractComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    CpfCnpjMaskDirective,
   ],
   imports: [
     BrowserModule,
@@ -59,8 +63,12 @@ import { SpinnerComponent } from './spinner/spinner.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, 
+    provideNgxMask()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

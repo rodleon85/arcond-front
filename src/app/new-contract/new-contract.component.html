@@ -1,1 +1,71 @@
-<p>new-contract works!</p>
+<mat-toolbar>
+    <span>Novo Contrato</span>
+</mat-toolbar>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-stepper #stepper animationDuration="0">
+
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Dados de Contrato</ng-template>
+                <div class="select-container">
+                    <mat-form-field style="width: 300px;">
+                        <mat-label>Empresa/Pessoa</mat-label>
+                        <input matInput formControlName="firstCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>CPF/CNPJ</mat-label>
+                        <input matInput maxlength="14" type="text" formControlName="cpfCnpj" appCpfCnpjMask required
+                            (keydown)="preventNonNumericalInput($event)" (input)="validateNumber($event)">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Proposta</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+
+                </div>
+                <div class="select-container" style="padding-bottom: 10px;"><mat-checkbox class="custom-checkbox" color="primary">Assinada</mat-checkbox></div>
+                <!-- <mat-divider></mat-divider> -->
+                <div>
+                    <button mat-button matStepperNext>Próximo</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup" label="Equipamentos">
+            <form [formGroup]="secondFormGroup">
+                <mat-form-field>
+                    <mat-label>Address</mat-label>
+                    <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Anterior</button>
+                    <button mat-button matStepperNext>Próximo</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFormGroup" label="Contatos">
+            <form [formGroup]="thirdFormGroup">
+                <mat-form-field>
+                    <mat-label>Address</mat-label>
+                    <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Anterior</button>
+                    <button mat-button matStepperNext>Próximo</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Resumo</ng-template>
+            
+            <div>
+                <button mat-button matStepperPrevious>Anterior</button>
+                <button mat-button (click)="stepper.reset()">Limpar</button>
+                <button mat-button (submit)="form">Salvar</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</form>
