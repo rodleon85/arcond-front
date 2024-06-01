@@ -92,6 +92,11 @@ export class NewContractComponent implements OnInit {
     reajuste: ['', Validators.required],
     vencimento: ['', Validators.required],
     prazo: ['', Validators.required],
+    valorIni: ['0', Validators.required],
+    valorAtu: ['0', Validators.required],
+    valorInst: ['0', Validators.required],
+    proposta: [''],
+    assinada: [''],
   });
   secondFormGroup = this._formBuilder.group({
 
@@ -203,13 +208,16 @@ export class NewContractComponent implements OnInit {
       ...equipment,
       index: this.ELEMENT_DATA_CADASTRO.length
     };
-
+    console.log(indexedEquipment);
     this.dataSourceCadastro.data.push(indexedEquipment);
+    this.dataSourceCadastro._updateChangeSubscription();
     this.tableCadastro.renderRows();
+    
   }
 
   removerEqp(): void {
     this.dataSourceCadastro.data.pop();
+    this.dataSourceCadastro._updateChangeSubscription();
     this.tableCadastro.renderRows();
   }
 
