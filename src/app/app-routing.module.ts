@@ -18,24 +18,25 @@ import { ContractComponent } from './contract/contract.component';
 import { UserContractComponent } from './user-contract/user-contract.component';
 import { NewContractComponent } from './new-contract/new-contract.component';
 import { CustomerContractComponent } from './customer-contract/customer-contract.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: NewRegisterComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'user', component: BoardUserComponent },
-  { path: 'mod', component: BoardModeratorComponent },
-  { path: 'admin', component: BoardAdminComponent },
-  { path: 'eqp', component: EquipmentComponent },
-  { path: 'brand', component: BrandComponent },
-  { path: 'model', component: ModelComponent },
-  { path: 'power', component: PowerComponent },
-  { path: 'type', component: TypeComponent },
-  { path: 'contracts', component: ContractComponent },
-  { path: 'newcontract', component: NewContractComponent },
-  { path: 'mycontracts', component: UserContractComponent },
-  { path: 'usercontract', component: CustomerContractComponent },
+  { path: 'register', component: NewRegisterComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'user', component: BoardUserComponent, canActivate: [AuthGuard] },
+  { path: 'mod', component: BoardModeratorComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: BoardAdminComponent, canActivate: [AuthGuard] },
+  { path: 'eqp', component: EquipmentComponent, canActivate: [AuthGuard] },
+  { path: 'brand', component: BrandComponent, canActivate: [AuthGuard] },
+  { path: 'model', component: ModelComponent, canActivate: [AuthGuard] },
+  { path: 'power', component: PowerComponent, canActivate: [AuthGuard] },
+  { path: 'type', component: TypeComponent, canActivate: [AuthGuard] },
+  { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard] },
+  { path: 'newcontract', component: NewContractComponent, canActivate: [AuthGuard] },
+  { path: 'mycontracts', component: UserContractComponent, canActivate: [AuthGuard] },
+  { path: 'usercontract', component: CustomerContractComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 

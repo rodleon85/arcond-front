@@ -16,6 +16,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatListModule } from '@angular/material/list';
 
 const MaterialComponents = [
   MatSidenavModule,
@@ -35,6 +38,9 @@ const MaterialComponents = [
   MatStepperModule,
   MatDividerModule,
   MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatListModule,
 ]
 
 @NgModule({

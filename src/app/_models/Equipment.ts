@@ -18,3 +18,7 @@ export class Equipment {
         this.power = power;
     }
 }
+
+export interface IndexedEquipment extends Equipment {
+    index: number;
+  }

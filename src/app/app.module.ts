@@ -30,6 +30,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { provideNgxMask, NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 import { CpfCnpjMaskDirective } from './_shared/cpf-cnpj-mask.directive';
+import { CurrencyMaskModule } from "ng2-currency-mask";
+import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -55,6 +58,7 @@ import { CpfCnpjMaskDirective } from './_shared/cpf-cnpj-mask.directive';
     CustomerContractComponent,
     SpinnerComponent,
     CpfCnpjMaskDirective,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,10 +69,12 @@ import { CpfCnpjMaskDirective } from './_shared/cpf-cnpj-mask.directive';
     MaterialModule,
     ReactiveFormsModule,
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    CurrencyMaskModule
   ],
   providers: [httpInterceptorProviders, 
-    provideNgxMask()],
+    provideNgxMask(),
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
