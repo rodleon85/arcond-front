@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Contract } from '../_models/Contract';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -12,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MONTHS, ESTADOS } from '../_shared/constants';
 import { Contact } from '../_models/Contact';
+import { ContractDocument } from '../_models/ContractDocument';
 
 
 @Component({
@@ -37,9 +38,12 @@ export class NewContractComponent implements OnInit {
   displayedColumns: string[] = ['id', 'marca', 'tipo', 'modelo', 'potencia', 'acoes'];
   displayedColumnsCadastro: string[] = ['marca', 'tipo', 'modelo', 'potencia', 'acoes'];
   displayedColumnsContato: string[] = ['nome', 'email', 'telefone', 'acoes'];
+  displayedColumnsDocumentos: string[] = ['arquivo', 'acoes'];
   ELEMENT_DATA_CONTATO: Contact[] = [];
   ELEMENT_DATA_CADASTRO: IndexedEquipment[] = [];
   ELEMENT_DATA: Equipment[] = [];
+  ELEMENT_DATA_DOCUMENTOS: ContractDocument[] = [];
+  dataSourceDocumentos = new MatTableDataSource<ContractDocument>(this.ELEMENT_DATA_DOCUMENTOS);
   dataSourceCadastro = new MatTableDataSource<IndexedEquipment>(this.ELEMENT_DATA_CADASTRO);
   dataSourceContato = new MatTableDataSource<Contact>(this.ELEMENT_DATA_CONTATO);
   dataSource = new MatTableDataSource<Equipment>(this.ELEMENT_DATA);
@@ -49,8 +53,7 @@ export class NewContractComponent implements OnInit {
 
   @ViewChild(MatTable) tableContato!: MatTable<Contact>;
   @ViewChild(MatTable) tableCadastro!: MatTable<Equipment>;
-  
-
+  @ViewChild(MatTable) tableDocumentos!: MatTable<ContractDocument>;
 
   contactList: Contact[] = [];
 
@@ -77,42 +80,45 @@ export class NewContractComponent implements OnInit {
     supportRequestList: []
   }; // Initialize the 'contract' property
 
-  firstFormGroup = this._formBuilder.group({
-    empnome: ['', Validators.required],
-    documento: ['', Validators.required],
-    cpfCnpj: ['', Validators.required],
-    cep: ['', Validators.required],
-    logradouro: ['', Validators.required],
-    numero: ['', [Validators.required, Validators.maxLength(6)]],
-    complemento: [''],
-    bairro: ['', Validators.required],
-    cidade: ['', Validators.required],
-    uf: ['', Validators.required],
-    data: ['', Validators.required],
-    reajuste: ['', Validators.required],
-    vencimento: ['', Validators.required],
-    prazo: ['', Validators.required],
-    valorIni: ['0', Validators.required],
-    valorAtu: ['0', Validators.required],
-    valorInst: ['0', Validators.required],
-    proposta: [''],
-    assinada: [''],
-  });
-  secondFormGroup = this._formBuilder.group({
+  mainFormGroup: FormGroup;
 
-  });
-
-  thirdFormGroup = this._formBuilder.group({
-   
-  });
-
+  maxSize = 3 * 1024 * 1024; // 3MB in bytes
+  errorMessage: string | null = null;
 
   constructor(
     private _formBuilder: FormBuilder,
     private viaCepService: ViaCepService,
     private equipmentService: EquipmentService,
     private spinnerService: SpinnerService,
-  ) { }
+  ) {
+    this.mainFormGroup = this._formBuilder.group({
+      formArray: this._formBuilder.array([
+        this._formBuilder.group({
+          empnome: ['', Validators.required],
+          documento: ['', Validators.required],
+          cep: ['', Validators.required],
+          logradouro: ['', Validators.required],
+          numero: ['', [Validators.required, Validators.maxLength(6)]],
+          complemento: [''],
+          bairro: ['', Validators.required],
+          cidade: ['', Validators.required],
+          uf: ['', Validators.required],
+          data: ['', Validators.required],
+          reajuste: ['', Validators.required],
+          vencimento: ['', Validators.required],
+          prazo: ['', Validators.required],
+          proposta: [''],
+          assinada: [false],
+          valorIni: [0],
+          valorAtu: [0],
+          valorInst: [0],
+        }),
+        this._formBuilder.group({ }),
+        this._formBuilder.group({ }),
+        this._formBuilder.group({ }),
+      ])
+    });
+  }
 
   ngOnInit(): void {
     this.spinnerService.show();
@@ -121,10 +127,8 @@ export class NewContractComponent implements OnInit {
     this.spinnerService.hide();
   }
 
-  onSubmit(): void {
-    if (this.firstFormGroup.valid) {
-      console.log(this.firstFormGroup.value);
-    }
+  get formArray(): FormArray {
+    return this.mainFormGroup.get('formArray') as FormArray;
   }
 
   preventNonNumericalInput(event: KeyboardEvent): void {
@@ -146,7 +150,7 @@ export class NewContractComponent implements OnInit {
     if (selectedDate) {
       const month = selectedDate.getMonth() + 1;
       console.log('Month:', month);
-      this.contract.readjustmentMonth = month;
+      this.formArray.at(0).patchValue({ reajuste: month });
     }
   }
 
@@ -157,7 +161,7 @@ export class NewContractComponent implements OnInit {
       this.viaCepService.getAddress(cep).subscribe({
         next: data => {
           if (data) {
-            this.firstFormGroup.patchValue({
+            this.formArray.at(0).patchValue({
               logradouro: data.logradouro,
               bairro: data.bairro,
               cidade: data.localidade,
@@ -212,7 +216,7 @@ export class NewContractComponent implements OnInit {
     this.dataSourceCadastro.data.push(indexedEquipment);
     this.dataSourceCadastro._updateChangeSubscription();
     this.tableCadastro.renderRows();
-    
+
   }
 
   removerEqp(): void {
@@ -234,7 +238,6 @@ export class NewContractComponent implements OnInit {
         email: '',
         phone: ''
       };
-      
     }
     this.tableContato.renderRows();
   }
@@ -245,12 +248,102 @@ export class NewContractComponent implements OnInit {
     this.tableContato.renderRows();
   }
 
+  adicionarArquivo(fileInputEvent: any): void {
+    const file = fileInputEvent.target.files[0];
+    console.log(this.errorMessage)
+    if (file.size > this.maxSize) {
+      
+      this.errorMessage = 'Tamanho do arquivo excede o limite de 3MB.';
+      
+      return;
+    }
+    this.errorMessage = null;
+    this.dataSourceDocumentos.data.push({
+      id: 0,
+      name: fileInputEvent.target.files[0].name,
+      file: fileInputEvent.target.files[0],
+      type: fileInputEvent.target.files[0].type,
+    });
+    this.dataSourceDocumentos._updateChangeSubscription();
+    this.tableDocumentos.renderRows();
+  }
+
+  removerArquivo(): void {
+    this.dataSourceDocumentos.data.pop();
+    this.dataSourceDocumentos._updateChangeSubscription();
+    this.tableDocumentos.renderRows();
+  }
+
+  csvInputChange(fileInputEvent: any) {
+    console.log(fileInputEvent.target.files[0]);
+  }
+
   resetForm(): void {
-    this.firstFormGroup.reset();
-    this.secondFormGroup.reset();
-    this.thirdFormGroup.reset();
+    this.mainFormGroup.reset();
     this.dataSourceContato.data = [];
     this.dataSourceCadastro.data = [];
+  }
+
+  onSubmit(): void {
+    console.log('Submit')
+    this.getFormValidationErrors();
+    if (this.mainFormGroup.valid) {
+      console.log('valid')
+      const firstFormGroup = this.formArray.at(0) as FormGroup;
+      this.contract.name = new String(firstFormGroup.get('empnome')?.value);
+      this.contract.document = new String(firstFormGroup.get('documento')?.value);
+      this.contract.proposal = new String(firstFormGroup.get('proposta')?.value);
+      this.contract.signature = new String(firstFormGroup.get('assinada')?.value);
+      this.contract.startValue = new Number(firstFormGroup.get('valorIni')?.value);
+      this.contract.currentValue = new Number(firstFormGroup.get('valorAtu')?.value);
+      this.contract.installationValue = new Number(firstFormGroup.get('valorInst')?.value);
+      this.contract.dueDay = new Number(firstFormGroup.get('vencimento')?.value);
+      this.contract.period = new Number(firstFormGroup.get('prazo')?.value);
+      const dateValue = firstFormGroup.get('data')?.value;
+      if (dateValue) {
+        this.contract.startDate = new Date(dateValue);
+      }
+      this.contract.readjustmentMonth = new Number(firstFormGroup.get('reajuste')?.value);
+      this.contract.address = {
+        id: 0,
+        address: firstFormGroup.get('logradouro')?.value,
+        number: firstFormGroup.get('numero')?.value,
+        complement: firstFormGroup.get('complemento')?.value,
+        neighborhood: firstFormGroup.get('bairro')?.value,
+        city: firstFormGroup.get('cidade')?.value,
+        state: firstFormGroup.get('uf')?.value,
+        zipcode: firstFormGroup.get('cep')?.value
+      };
+      this.contract.equipmentList = this.dataSourceCadastro.data.map((equipment: IndexedEquipment) => {
+        return {
+          id: equipment.id,
+          model: equipment.model,
+          type: equipment.type,
+          brand: equipment.brand,
+          power: equipment.power
+        };
+      }),
+      this.contract.contactList = this.dataSourceContato.data;
+      this.contract.documentList = this.dataSourceDocumentos.data;
+      console.log(this.contract);
+    }
+  }
+
+  getFormValidationErrors() {
+    const formArray = this.mainFormGroup.get('formArray') as FormArray;
+
+    formArray.controls.forEach((group, groupIndex) => {
+      const formGroup = group as FormGroup;
+
+      Object.keys(formGroup.controls).forEach(key => {
+        const controlErrors: ValidationErrors | null = formGroup.get(key)?.errors ?? null;
+        if (controlErrors != null) {
+          Object.keys(controlErrors).forEach(keyError => {
+            console.log(`Group: ${groupIndex}, Key control: ${key}, keyError: ${keyError}, err value:`, controlErrors[keyError]);
+          });
+        }
+      });
+    });
   }
 
 }
