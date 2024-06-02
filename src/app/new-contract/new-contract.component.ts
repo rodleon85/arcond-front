@@ -149,7 +149,6 @@ export class NewContractComponent implements OnInit {
     const selectedDate = event.value;
     if (selectedDate) {
       const month = selectedDate.getMonth() + 1;
-      console.log('Month:', month);
       this.formArray.at(0).patchValue({ reajuste: month });
     }
   }
@@ -212,7 +211,6 @@ export class NewContractComponent implements OnInit {
       ...equipment,
       index: this.ELEMENT_DATA_CADASTRO.length
     };
-    console.log(indexedEquipment);
     this.dataSourceCadastro.data.push(indexedEquipment);
     this.dataSourceCadastro._updateChangeSubscription();
     this.tableCadastro.renderRows();
@@ -250,7 +248,6 @@ export class NewContractComponent implements OnInit {
 
   adicionarArquivo(fileInputEvent: any): void {
     const file = fileInputEvent.target.files[0];
-    console.log(this.errorMessage)
     if (file.size > this.maxSize) {
       
       this.errorMessage = 'Tamanho do arquivo excede o limite de 3MB.';
@@ -274,19 +271,15 @@ export class NewContractComponent implements OnInit {
     this.tableDocumentos.renderRows();
   }
 
-  csvInputChange(fileInputEvent: any) {
-    console.log(fileInputEvent.target.files[0]);
-  }
-
   resetForm(): void {
     this.mainFormGroup.reset();
     this.dataSourceContato.data = [];
     this.dataSourceCadastro.data = [];
+    this.dataSourceDocumentos.data = [];
   }
 
   onSubmit(): void {
     console.log('Submit')
-    this.getFormValidationErrors();
     if (this.mainFormGroup.valid) {
       console.log('valid')
       const firstFormGroup = this.formArray.at(0) as FormGroup;
@@ -329,21 +322,21 @@ export class NewContractComponent implements OnInit {
     }
   }
 
-  getFormValidationErrors() {
-    const formArray = this.mainFormGroup.get('formArray') as FormArray;
+  // getFormValidationErrors() {
+  //   const formArray = this.mainFormGroup.get('formArray') as FormArray;
 
-    formArray.controls.forEach((group, groupIndex) => {
-      const formGroup = group as FormGroup;
+  //   formArray.controls.forEach((group, groupIndex) => {
+  //     const formGroup = group as FormGroup;
 
-      Object.keys(formGroup.controls).forEach(key => {
-        const controlErrors: ValidationErrors | null = formGroup.get(key)?.errors ?? null;
-        if (controlErrors != null) {
-          Object.keys(controlErrors).forEach(keyError => {
-            console.log(`Group: ${groupIndex}, Key control: ${key}, keyError: ${keyError}, err value:`, controlErrors[keyError]);
-          });
-        }
-      });
-    });
-  }
+  //     Object.keys(formGroup.controls).forEach(key => {
+  //       const controlErrors: ValidationErrors | null = formGroup.get(key)?.errors ?? null;
+  //       if (controlErrors != null) {
+  //         Object.keys(controlErrors).forEach(keyError => {
+  //           console.log(`Group: ${groupIndex}, Key control: ${key}, keyError: ${keyError}, err value:`, controlErrors[keyError]);
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
 
 }

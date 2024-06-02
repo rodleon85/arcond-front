@@ -105,7 +105,7 @@
                 </mat-form-field>
             </div>
             <div>
-                <button mat-raised-button color="primary" matStepperNext>Próximo</button>
+                <button mat-raised-button type="button" color="primary" matStepperNext>Próximo</button>
             </div>
         </mat-step>
 
@@ -149,7 +149,7 @@
                     <ng-container matColumnDef="acoes">
                         <th mat-header-cell *matHeaderCellDef> Ações </th>
                         <td mat-cell *matCellDef="let element">
-                            <button mat-icon-button (click)="adicionarEqp(element)">
+                            <button mat-icon-button type="button" (click)="adicionarEqp(element)">
                                 <mat-icon color="primary">add</mat-icon></button>
                         </td>
                     </ng-container>
@@ -187,7 +187,7 @@
                 <ng-container matColumnDef="acoes">
                     <th mat-header-cell *matHeaderCellDef> Ações </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button (click)="removerEqp()">
+                        <button mat-icon-button type="button" (click)="removerEqp()">
                             <mat-icon style="padding-top: 8px; font-size: medium;" color="accent">delete</mat-icon>
                         </button>
                     </td>
@@ -201,7 +201,7 @@
                 
             <div style="padding-top: 20px;">
                 <button mat-raised-button color="grey" matStepperPrevious>Anterior</button>
-                <button mat-raised-button color="primary" class="button-margin" matStepperNext>Próximo</button>
+                <button mat-raised-button color="primary" type="button" class="button-margin" matStepperNext>Próximo</button>
             </div>
         </mat-step>
 
@@ -219,7 +219,7 @@
                     <mat-label>E-mail</mat-label>
                     <input matInput type="email" [(ngModel)]="contactTemp.email" [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
-                <button mat-mini-fab color="primary" (click)="adicionarContato()">
+                <button mat-mini-fab type="button" color="primary" (click)="adicionarContato()">
                     <mat-icon>add</mat-icon></button>
             </div>
 
@@ -242,7 +242,7 @@
                 <ng-container matColumnDef="acoes">
                     <th mat-header-cell *matHeaderCellDef> Ações </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button (click)="removerContato()">
+                        <button mat-icon-button type="button" (click)="removerContato()">
                             <mat-icon style="padding-top: 8px; font-size: medium;" color="accent">delete</mat-icon>
                         </button>
                     </td>
@@ -254,7 +254,7 @@
 
             <div style="padding-top: 20px;">
                 <button mat-raised-button color="grey" matStepperPrevious>Anterior</button>
-                <button mat-raised-button color="primary" class="button-margin" matStepperNext>Próximo</button>
+                <button mat-raised-button color="primary" type="button" class="button-margin" matStepperNext>Próximo</button>
             </div>
         </mat-step>
 
@@ -262,7 +262,7 @@
         
             <div class="select-container">
                 <input #documentInput hidden="true" type="file" onclick="this.value=null" (change)="adicionarArquivo($event)" />
-                <button mat-flat-button color="primary" (click)="documentInput.click()">Selecionar Arquivo (3MB)</button>
+                <button mat-flat-button type="button" color="primary" (click)="documentInput.click()">Selecionar Arquivo (3MB)</button>
                 <mat-error *ngIf="errorMessage!=''">
                     {{errorMessage}}
                 </mat-error>
@@ -277,7 +277,7 @@
                 <ng-container matColumnDef="acoes">
                     <th mat-header-cell *matHeaderCellDef> Ações </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button (click)="removerArquivo()">
+                        <button mat-icon-button type="button" (click)="removerArquivo()">
                             <mat-icon style="padding-top: 8px; font-size: medium;" color="accent">delete</mat-icon>
                         </button>
                     </td>
@@ -289,7 +289,7 @@
 
             <div style="padding-top: 20px;">
                 <button mat-raised-button color="grey" matStepperPrevious>Anterior</button>
-                <button mat-raised-button color="primary" class="button-margin" matStepperNext>Próximo</button>
+                <button mat-raised-button color="primary" type="button" class="button-margin" matStepperNext>Próximo</button>
             </div>
         </mat-step>
 
@@ -297,7 +297,7 @@
             <ng-template matStepLabel>Resumo</ng-template>
             <div style="padding-top: 20px;">
                 <button mat-raised-button color="grey" matStepperPrevious>Anterior</button>
-                <button mat-raised-button color="accent" class="button-margin" (click)="stepper.reset(); resetForm();">Limpar</button>
+                <button mat-raised-button color="accent" type="button" class="button-margin" (click)="stepper.reset(); resetForm();">Limpar</button>
                 <button mat-raised-button color="primary" class="button-margin" type="submit">Salvar</button>
             </div>
         </mat-step>
