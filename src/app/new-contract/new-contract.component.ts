@@ -10,9 +10,11 @@ import { EquipmentService } from '../_services/equipment.service';
 import { SpinnerService } from '../_services/spinner.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { MONTHS, ESTADOS } from '../_shared/constants';
+import { MONTHS, ESTADOS, ALLOWED_FILE_TYPES_CADASTRO } from '../_shared/constants';
 import { Contact } from '../_models/Contact';
 import { ContractDocument } from '../_models/ContractDocument';
+import { ContractService } from '../_services/contract.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,7 +31,6 @@ import { ContractDocument } from '../_models/ContractDocument';
 export class NewContractComponent implements OnInit {
 
   contactTemp: Contact = {
-    id: 0,
     name: '',
     email: '',
     phone: ''
@@ -73,7 +74,7 @@ export class NewContractComponent implements OnInit {
     period: 0,
     readjustmentMonth: 0,
     address: { id: 0, address: '' },
-    documentList: [],
+    contractDocumentList: [],
     equipmentList: [],
     contactList: [],
     paymentList: [],
@@ -90,6 +91,8 @@ export class NewContractComponent implements OnInit {
     private viaCepService: ViaCepService,
     private equipmentService: EquipmentService,
     private spinnerService: SpinnerService,
+    private contractService: ContractService,
+    private router: Router,
   ) {
     this.mainFormGroup = this._formBuilder.group({
       formArray: this._formBuilder.array([
@@ -231,7 +234,6 @@ export class NewContractComponent implements OnInit {
       this.dataSourceContato.data.push(newContact);
       this.dataSourceContato._updateChangeSubscription();
       this.contactTemp = {
-        id: 0,
         name: '',
         email: '',
         phone: ''
@@ -248,21 +250,32 @@ export class NewContractComponent implements OnInit {
 
   adicionarArquivo(fileInputEvent: any): void {
     const file = fileInputEvent.target.files[0];
+  
     if (file.size > this.maxSize) {
-      
       this.errorMessage = 'Tamanho do arquivo excede o limite de 3MB.';
-      
       return;
     }
-    this.errorMessage = null;
-    this.dataSourceDocumentos.data.push({
-      id: 0,
-      name: fileInputEvent.target.files[0].name,
-      file: fileInputEvent.target.files[0],
-      type: fileInputEvent.target.files[0].type,
-    });
-    this.dataSourceDocumentos._updateChangeSubscription();
-    this.tableDocumentos.renderRows();
+  
+    if (!ALLOWED_FILE_TYPES_CADASTRO.includes(file.type)) {
+      this.errorMessage = 'Tipo de arquivo não permitido.';
+      return;
+    }
+  
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const fileBase64 = e.target.result.split(',')[1]; // Assuming the result includes the Base64 header
+      const newDocument: ContractDocument = {
+        name: file.name,
+        fileBase64: fileBase64,
+        type: file.type,
+      };
+  
+      this.dataSourceDocumentos.data.push(newDocument);
+      this.dataSourceDocumentos._updateChangeSubscription();
+      this.tableDocumentos.renderRows();
+      this.errorMessage = null;
+    };
+    reader.readAsDataURL(file); // Initiates reading of the file
   }
 
   removerArquivo(): void {
@@ -298,7 +311,6 @@ export class NewContractComponent implements OnInit {
       }
       this.contract.readjustmentMonth = new Number(firstFormGroup.get('reajuste')?.value);
       this.contract.address = {
-        id: 0,
         address: firstFormGroup.get('logradouro')?.value,
         number: firstFormGroup.get('numero')?.value,
         complement: firstFormGroup.get('complemento')?.value,
@@ -317,8 +329,17 @@ export class NewContractComponent implements OnInit {
         };
       }),
       this.contract.contactList = this.dataSourceContato.data;
-      this.contract.documentList = this.dataSourceDocumentos.data;
+      this.contract.contractDocumentList = this.dataSourceDocumentos.data;
       console.log(this.contract);
+      this.contractService.createContract(this.contract).subscribe({
+        next: response => {
+          // this.router.navigate(['/contracts']);
+        },
+        error: error => {
+          console.error('Error saving Equipment', error);
+        }
+      });
+
     }
   }
 

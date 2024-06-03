@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Contract } from '../_models/Contract';
+import { SpinnerService } from '../_services/spinner.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ContractComponent  implements OnInit {
 
   constructor(
     private contractService: ContractService,
+    private spinnerService: SpinnerService,
   ) {
   }
 
@@ -71,14 +73,17 @@ export class ContractComponent  implements OnInit {
   }
 
   reloadDataSource(): void {
+    this.spinnerService.show();
     this.contractService.getContracts().subscribe({
       next: response => {
         this.dataSource.data = response;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.spinnerService.hide();
       },
       error: error => {
         this.errorMessage = error.error.message;
+        this.spinnerService.hide();
       }
     });
   }

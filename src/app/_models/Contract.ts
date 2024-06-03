@@ -20,7 +20,7 @@ export interface Contract {
   readjustmentMonth: Number;
   mailingType?: String;
   address: Address;
-  documentList: ContractDocument[];
+  contractDocumentList: ContractDocument[];
   equipmentList: Equipment[];
   contactList: Contact[];
   paymentList: Payment[];

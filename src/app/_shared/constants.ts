@@ -42,3 +42,25 @@ export const ESTADOS = [
     { value: 'SE'},
     { value: 'TO'},
   ];
+
+  export const ALLOWED_FILE_TYPES_CADASTRO = [
+    // MS Office formats
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
+    'application/vnd.ms-excel', // xls
+    'application/msword', // doc
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+    'application/pdf', // pdf
+    // Image formats
+    'image/jpeg', // jpg
+    'image/png', // png
+    'image/gif', // gif
+    'image/bmp', // bmp
+    'image/tiff', // tiff
+    'image/webp', // webp
+    // LibreOffice formats
+    'application/vnd.oasis.opendocument.text', // odt
+    'application/vnd.oasis.opendocument.spreadsheet', // ods
+    // Google Docs formats (when exported)
+    'application/rtf', // Rich Text Format
+    'text/plain' // Plain text
+];
