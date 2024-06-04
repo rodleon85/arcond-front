@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContractService } from 'src/app/_services/contract.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Contract } from '../_models/Contract';
 import { SpinnerService } from '../_services/spinner.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,15 +18,17 @@ export class ContractComponent  implements OnInit {
   
   ELEMENT_DATA: Contract[] = [];
   errorMessage = '';
-  displayedColumns: string[] = ['id', 'nome', 'document', 'valor', 'vencimento', 'acoes'];
+  displayedColumns: string[] = ['id', 'nome', 'document', 'valor', 'vencimento', 'payment', 'acoes'];
   dataSource = new MatTableDataSource<Contract>(this.ELEMENT_DATA);
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatTable) tableContato!: MatTable<Contract>;
 
   constructor(
     private contractService: ContractService,
     private spinnerService: SpinnerService,
+    private router: Router,
   ) {
   }
 
@@ -45,19 +48,22 @@ export class ContractComponent  implements OnInit {
   // }
 
   edit(contract: Contract): void {
+    this.router.navigate(['/contracts/edit', contract.id]);
   }
 
   remove(id: number): void {
+    this.spinnerService.show();
     this.contractService.deleteContract(id).subscribe({
       next: response => {
-        console.log('Contract saved successfully', response);
-        // Reset the form or handle success response
-        this.reloadPage();
+        this.dataSource.data = this.dataSource.data.filter(contract => contract.id !== id);
+        this.dataSource._updateChangeSubscription();
+        this.tableContato.renderRows();
+        this.spinnerService.hide();
       },
       error: error => {
         console.error('Error saving Contract', error);
-        // Handle error response
         this.errorMessage = error.error.message;
+        this.spinnerService.hide();
       }
     });
   }
@@ -76,6 +82,7 @@ export class ContractComponent  implements OnInit {
     this.spinnerService.show();
     this.contractService.getContracts().subscribe({
       next: response => {
+        console.log(response);
         this.dataSource.data = response;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

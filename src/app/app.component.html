@@ -23,7 +23,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <button mat-button [routerLink]="['/contracts']">Lista</button>
-      <button mat-button [routerLink]="['/newcontract']">Cadastrar</button>
+      <button mat-button [routerLink]="['contracts/new']">Cadastrar</button>
     </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="adminRights || moderatorRights">

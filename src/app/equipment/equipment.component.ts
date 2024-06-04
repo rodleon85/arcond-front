@@ -40,13 +40,10 @@ export class EquipmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.spinnerService.show();
     this.dataSource.filterPredicate = this.createFilter();
     this.reloadDataSource();
-    this.spinnerService.show();
-    // Simulate a delay
-    setTimeout(() => {
-      this.spinnerService.hide();
-    }, 3000);
+    
   }
 
   createFilter(): (data: Equipment, filter: string) => boolean {
@@ -129,9 +126,11 @@ export class EquipmentComponent implements OnInit {
         this.dataSource.data = response;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.spinnerService.hide();
       },
       error: error => {
         this.errorMessage = error.error.message;
+        this.spinnerService.hide();
       }
     });
   }

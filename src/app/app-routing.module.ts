@@ -19,6 +19,7 @@ import { UserContractComponent } from './user-contract/user-contract.component';
 import { NewContractComponent } from './new-contract/new-contract.component';
 import { CustomerContractComponent } from './customer-contract/customer-contract.component';
 import { AuthGuard } from './auth.guard';
+import { ContractEditComponent } from './contract-edit/contract-edit.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
@@ -34,9 +35,11 @@ const routes: Routes = [
   { path: 'power', component: PowerComponent, canActivate: [AuthGuard] },
   { path: 'type', component: TypeComponent, canActivate: [AuthGuard] },
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard] },
-  { path: 'newcontract', component: NewContractComponent, canActivate: [AuthGuard] },
+  { path: 'contracts/edit/:id', component: NewContractComponent, canActivate: [AuthGuard] },
+  { path: 'contracts/new', component: NewContractComponent, canActivate: [AuthGuard] },
   { path: 'mycontracts', component: UserContractComponent, canActivate: [AuthGuard] },
   { path: 'usercontract', component: CustomerContractComponent, canActivate: [AuthGuard] },
+  // { path: 'edit/:id', component: ContractEditComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 

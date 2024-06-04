@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,8 +33,15 @@ import { CpfCnpjMaskDirective } from './_shared/cpf-cnpj-mask.directive';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { FooterComponent } from './footer/footer.component';
+import { CpfCnpjMaskPipe } from './_shared/cpf-cnpj-mask.pipe';
+import { ContractEditComponent } from './contract-edit/contract-edit.component';
+import { FormatDatePipe } from './_shared/format-date.pipe';
+import { FormatCurrencyBrPipe } from './_shared/format-currency-br.pipe';
 
-
+// Import and register locale data
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -59,6 +66,10 @@ import { FooterComponent } from './footer/footer.component';
     SpinnerComponent,
     CpfCnpjMaskDirective,
     FooterComponent,
+    CpfCnpjMaskPipe,
+    ContractEditComponent,
+    FormatDatePipe,
+    FormatCurrencyBrPipe,
   ],
   imports: [
     BrowserModule,
@@ -72,9 +83,12 @@ import { FooterComponent } from './footer/footer.component';
     NgxMaskPipe,
     CurrencyMaskModule
   ],
-  providers: [httpInterceptorProviders, 
+  providers: [
+    httpInterceptorProviders, 
     provideNgxMask(),
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }],
+    { provide: LOCALE_ID, useValue: 'pt-BR' }, // Set the default locale to pt-BR
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

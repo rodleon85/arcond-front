@@ -25,12 +25,12 @@
 
         <ng-container matColumnDef="document">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento </th>
-            <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.document | cpfCnpjMask }} </td>
         </ng-container>
 
         <ng-container matColumnDef="valor">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Atual </th>
-            <td mat-cell *matCellDef="let element"> {{element.currentValue}} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.currentValue | formatCurrencyBr }} </td>
         </ng-container>
 
         <ng-container matColumnDef="vencimento">
@@ -38,11 +38,17 @@
             <td mat-cell *matCellDef="let element"> {{element.dueDay}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="payment">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Último Pagamento </th>
+            <td mat-cell *matCellDef="let element"> {{ element.lastPayment | formatDate }} </td>
+        </ng-container>
+
         <ng-container matColumnDef="acoes">
             <th mat-header-cell *matHeaderCellDef> Ações </th>
             <td mat-cell *matCellDef="let element">
-                <button mat-icon-button (click)="edit(element)"><mat-icon>edit</mat-icon></button>
-                <button mat-icon-button (click)="remove(element.id)" color="accent"><mat-icon>delete</mat-icon></button>
+                <button mat-icon-button matTooltip="Editar" (click)="edit(element)"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button matTooltip="Excluir" (click)="remove(element.id)" color="accent"><mat-icon>delete</mat-icon></button>
+                <button mat-icon-button matTooltip="Gerenciar" (click)="edit(element.id)" color="#999000"><mat-icon>description</mat-icon></button>
             </td>
         </ng-container>
 

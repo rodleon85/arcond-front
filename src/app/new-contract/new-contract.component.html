@@ -1,5 +1,5 @@
 <mat-toolbar>
-    <span>Novo Contrato</span>
+    <span>{{ getTitle() }}</span>
 </mat-toolbar>
 
 <form [formGroup]="mainFormGroup" (ngSubmit)="onSubmit()">
@@ -166,22 +166,22 @@
                 <!-- Position Column -->
                 <ng-container matColumnDef="marca">
                     <th mat-header-cell *matHeaderCellDef> Marca </th>
-                    <td mat-cell *matCellDef="let element"> {{element.brand.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.equipment.brand.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tipo">
                     <th mat-header-cell *matHeaderCellDef> Tipo </th>
-                    <td mat-cell *matCellDef="let element"> {{element.type.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.equipment.type.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="modelo">
                     <th mat-header-cell *matHeaderCellDef> Modelo </th>
-                    <td mat-cell *matCellDef="let element"> {{element.model.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.equipment.model.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="potencia">
                     <th mat-header-cell *matHeaderCellDef> Potencia </th>
-                    <td mat-cell *matCellDef="let element"> {{element.power.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.equipment.power.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="acoes">
@@ -297,8 +297,8 @@
             <ng-template matStepLabel>Resumo</ng-template>
             <div style="padding-top: 20px;">
                 <button mat-raised-button color="grey" matStepperPrevious>Anterior</button>
-                <button mat-raised-button color="accent" type="button" class="button-margin" (click)="stepper.reset(); resetForm();">Limpar</button>
-                <button mat-raised-button color="primary" class="button-margin" type="submit">Salvar</button>
+                <button mat-raised-button *ngIf="!isEditMode" color="accent" type="button" class="button-margin" (click)="stepper.reset(); resetForm();">Limpar</button>
+                <button mat-raised-button color="primary" class="button-margin" type="submit">{{ isEditMode ? 'Atualizar' : 'Criar' }}</button>
             </div>
         </mat-step>
     </mat-stepper>
