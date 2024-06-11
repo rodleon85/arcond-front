@@ -34,13 +34,17 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { FooterComponent } from './footer/footer.component';
 import { CpfCnpjMaskPipe } from './_shared/cpf-cnpj-mask.pipe';
-import { ContractEditComponent } from './contract-edit/contract-edit.component';
 import { FormatDatePipe } from './_shared/format-date.pipe';
 import { FormatCurrencyBrPipe } from './_shared/format-currency-br.pipe';
 
 // Import and register locale data
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { ContractManageComponent } from './contract-manage/contract-manage.component';
+import { MonthNamePipe } from './_shared/month-name.pipe';
+import { ConfirmDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { PhoneMaskPipe } from './_shared/phone-mask.pipe';
+
 registerLocaleData(localePt);
 
 @NgModule({
@@ -67,9 +71,12 @@ registerLocaleData(localePt);
     CpfCnpjMaskDirective,
     FooterComponent,
     CpfCnpjMaskPipe,
-    ContractEditComponent,
     FormatDatePipe,
     FormatCurrencyBrPipe,
+    ContractManageComponent,
+    MonthNamePipe,
+    ConfirmDialogComponent,
+    PhoneMaskPipe,
   ],
   imports: [
     BrowserModule,

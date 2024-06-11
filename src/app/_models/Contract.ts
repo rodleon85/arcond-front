@@ -6,9 +6,9 @@ import { SupportRequest } from "./SupportRequest";
 import { ContractEquipment } from "./ContractEquipment";
 
 export interface Contract {
-  id?: Number;
-  name: String;
-  document: String;
+  id?: number;
+  name: string;
+  document: string;
   proposal?: String;
   signature?: String;
   startValue: Number;
@@ -18,7 +18,7 @@ export interface Contract {
   lastPayment?: Date;
   startDate: Date;
   period: Number;
-  readjustmentMonth: Number;
+  readjustmentMonth: number;
   mailingType?: String;
   address: Address;
   contractDocumentList: ContractDocument[];

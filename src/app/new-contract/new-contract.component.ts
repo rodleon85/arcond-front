@@ -16,6 +16,7 @@ import { ContractDocument } from '../_models/ContractDocument';
 import { ContractService } from '../_services/contract.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContractEquipment } from '../_models/ContractEquipment';
+import { ContractDocumentService } from '../_services/contract-document.service';
 
 
 @Component({
@@ -96,6 +97,7 @@ export class NewContractComponent implements OnInit {
     private contractService: ContractService,
     private router: Router,
     private route: ActivatedRoute,
+    private contractDocumentService: ContractDocumentService,
   ) {
     this.mainFormGroup = this._formBuilder.group({
       formArray: this._formBuilder.array([
@@ -277,9 +279,31 @@ export class NewContractComponent implements OnInit {
     this.updateViewTable(this.tableCadastro, this.dataSourceCadastro);
   }
 
-  removerEqp(): void {
-    this.dataSourceCadastro.data.pop();
-    this.updateViewTable(this.tableCadastro, this.dataSourceCadastro);
+  removerEqp(element: ContractEquipment): void {
+    this.spinnerService.show();
+    if (element.id) {
+      this.contractDocumentService.deleteContractEquipment(element.id).subscribe({
+        next: () => {
+          this.removerEqpDataSource(element);
+          this.spinnerService.hide();
+        },
+        error: (err) => {
+          console.error('Error deleting the contract equipment', err);
+          this.spinnerService.hide();
+        }
+      });
+    } else {
+      this.removerEqpDataSource(element);
+      this.spinnerService.hide();
+    }
+  }
+
+  removerEqpDataSource(element: ContractEquipment): void {
+    const index = this.dataSourceCadastro.data.indexOf(element);
+    if (index >= 0) {
+      this.dataSourceCadastro.data.splice(index, 1);
+      this.updateViewTable(this.tableCadastro, this.dataSourceCadastro);
+    }
   }
 
   adicionarContato(): void {
@@ -348,8 +372,8 @@ export class NewContractComponent implements OnInit {
       this.spinnerService.show();
       console.log('valid')
       const firstFormGroup = this.formArray.at(0) as FormGroup;
-      this.contract.name = new String(firstFormGroup.get('empnome')?.value);
-      this.contract.document = new String(firstFormGroup.get('documento')?.value);
+      this.contract.name = firstFormGroup.get('empnome')?.value;
+      this.contract.document = firstFormGroup.get('documento')?.value;
       this.contract.proposal = new String(firstFormGroup.get('proposta')?.value);
       this.contract.signature = new String(firstFormGroup.get('assinada')?.value);
       this.contract.startValue = new Number(firstFormGroup.get('valorIni')?.value);
@@ -361,7 +385,7 @@ export class NewContractComponent implements OnInit {
       if (dateValue) {
         this.contract.startDate = new Date(dateValue);
       }
-      this.contract.readjustmentMonth = new Number(firstFormGroup.get('reajuste')?.value);
+      this.contract.readjustmentMonth = firstFormGroup.get('reajuste')?.value;
       this.contract.address = {
         address: firstFormGroup.get('logradouro')?.value,
         number: firstFormGroup.get('numero')?.value,

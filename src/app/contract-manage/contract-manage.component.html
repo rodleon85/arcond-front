@@ -1,0 +1,115 @@
+<mat-toolbar>
+    <span>Gerenciar Contrato #{{ contract.id }}</span>
+</mat-toolbar>
+
+<mat-tab-group animationDuration="0ms">
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>receipt_long</mat-icon>
+            &nbsp; Contrato
+        </ng-template>
+
+        <mat-card>
+            <mat-card-content>
+                <div class="conteudo">
+                    <div class="section-title"><mat-label>Dados</mat-label></div>
+                    <div class="flex-container">
+                        <div class="flex-item">Empresa/Pessoa: {{ contract.name }}</div>
+                        <div class="flex-item">CPF/CNPJ: {{ contract.document | cpfCnpjMask }}</div>
+                        <div class="flex-item">Proposta: {{ contract.proposal }}</div>
+                        <div class="flex-item">Assinada: <span
+                                *ngIf="contract.signature; else notSigned">SIM</span><ng-template
+                                #notSigned>NÃO</ng-template></div>
+                        <div class="flex-item">Valor Inicial: {{ contract.startValue | formatCurrencyBr }}</div>
+                        <div class="flex-item">Valor Atual: {{ contract.currentValue | formatCurrencyBr }}</div>
+                        <div class="flex-item">Custo de Instalação {{ contract.installationValue | formatCurrencyBr }}
+                        </div>
+                        <div class="flex-item">Dia de Vencimento: {{ contract.dueDay }}</div>
+                        <div class="flex-item">Último pagamento: {{ contract.lastPayment }}</div>
+                        <div class="flex-item">Prazo: {{ contract.period }}&nbsp;meses</div>
+                        <div class="flex-item">Data de Inicio: {{ contract.startDate | date }}</div>
+                        <div class="flex-item">Mês de Reajuste: {{ contract.readjustmentMonth | monthName }}</div>
+                    </div>
+
+                    <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
+                    <div class="section-title"><mat-label>Endereço</mat-label></div>
+                    <div class="flex-container">
+                        <div class="flex-item">Logradouro: {{ contract.address.address }}</div>
+                        <div class="flex-item">Número: {{ contract.address.number }}</div>
+                        <div *ngIf="contract.address.complement" class="flex-item">Complemento: {{
+                            contract.address.complement }}</div>
+                        <div class="flex-item">Bairro: {{ contract.address.neighborhood }}</div>
+                        <div class="flex-item">Cidade: {{ contract.address.city }}</div>
+                        <div class="flex-item">UF: {{ contract.address.state }}</div>
+                        <div class="flex-item">CEP: {{ contract.address.zipcode }}</div>
+                    </div>
+
+                    <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
+                    <div class="section-title"><mat-label>Equipamentos</mat-label></div>
+                    <div class="flex-container">
+                        <div *ngFor="let equipment of contract.contractEquipmentList" class="equipment-item">
+                            <mat-card>
+                                <mat-card-title>#{{ equipment.id }}</mat-card-title>
+                                <mat-card-content>
+                                    <p>Marca: {{ equipment.equipment.brand.name }}</p>
+                                    <p>Tipo: {{ equipment.equipment.type.name }}</p>
+                                    <p>Modelo: {{ equipment.equipment.model.name }}</p>
+                                    <p>Potência: {{ equipment.equipment.power.name }}</p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                    <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
+                    <div class="section-title"><mat-label>Contatos</mat-label></div>
+                    <div class="contacts-container">
+                        <div *ngFor="let contact of contract.contactList" class="contact-item">
+                            <mat-card>
+                                <mat-card-content>
+                                    <div class="contact-details">
+                                        <span>{{ contact.name }}</span>
+                                        <span>{{ contact.phone | phoneMask }}</span>
+                                        <span>{{ contact.email }}</span>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                    <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
+                    <div class="section-title"><mat-label>Documentos</mat-label></div>
+                    <div class="flex-container">
+                        <div *ngFor="let document of contract.contractDocumentList" class="equipment-item">
+                            <mat-card>
+                                <mat-card-content>
+                                    {{ document.name }} <button mat-icon-button color="primary" (click)="downloadDoc(document)" matTooltip="Baixar"><mat-icon>cloud_download</mat-icon></button>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>payments</mat-icon>
+            &nbsp; Pagamentos
+        </ng-template>
+
+        <p>{{ contract.id }}</p>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>support_agent</mat-icon>
+            &nbsp; Chamados
+        </ng-template>
+
+
+    </mat-tab>
+
+</mat-tab-group>

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Contract } from '../_models/Contract';
+import { saveAs } from 'file-saver';
 import { environment } from 'src/environments/environment';
 
-const API_URL = environment.apiUrl + '/api/contract/';
+const API_URL = environment.apiUrl + '/api/contract/document/';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +13,15 @@ export class ContractDocumentService {
   
   constructor(private http: HttpClient) {}
 
-  getDocument(id: number): Observable<Contract> {
-    return this.http.get<Contract>(API_URL + `admin/${id}`);
+  downloadDocument(id: number): Observable<Blob> {
+    return this.http.get(API_URL + `admin/${id}`, { responseType: 'blob' });
+  }
+
+  saveFile(blob: Blob, filename: string) {
+    saveAs(blob, filename);
   }
  
-  deleteContract(id: number): Observable<void> {
+  deleteContractEquipment(id: number): Observable<void> {
     return this.http.delete<void>(API_URL + `admin/${id}`);
   }
   

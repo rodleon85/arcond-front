@@ -6,6 +6,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Contract } from '../_models/Contract';
 import { SpinnerService } from '../_services/spinner.service';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -29,6 +31,7 @@ export class ContractComponent  implements OnInit {
     private contractService: ContractService,
     private spinnerService: SpinnerService,
     private router: Router,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -49,6 +52,27 @@ export class ContractComponent  implements OnInit {
 
   edit(contract: Contract): void {
     this.router.navigate(['/contracts/edit', contract.id]);
+  }
+
+  manage(contract: Contract): void {
+    this.router.navigate(['/contracts/manage', contract.id]);
+  }
+
+  removeDialog(id: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: { message: `Deseja excluir o contrato ${id}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (id !== undefined && id !== null) {
+          this.remove(id);
+        } else {
+          console.error('Contract ID is undefined or null');
+        }
+      }
+    });
   }
 
   remove(id: number): void {
