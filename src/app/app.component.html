@@ -15,7 +15,7 @@
   <mat-sidenav mode="side" [(opened)]="opened">
     <button mat-button [routerLink]="['/mycontracts']" *ngIf="userRights">Meus Contratos</button><br/>
     <button mat-button [routerLink]="['/register']" *ngIf="userRights">Meus Dados</button><br/>
-    
+
     <mat-expansion-panel *ngIf="adminRights || moderatorRights">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -48,7 +48,6 @@
       <button mat-button [routerLink]="['/register']">Cadastrar</button>
       <button mat-button [routerLink]="['/usercontract']">Vincular a Contrato</button>
     </mat-expansion-panel>
-
   </mat-sidenav>
   <mat-sidenav-content>
     <app-spinner></app-spinner>

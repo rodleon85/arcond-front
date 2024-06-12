@@ -83,7 +83,9 @@
                         <div *ngFor="let document of contract.contractDocumentList" class="equipment-item">
                             <mat-card>
                                 <mat-card-content>
-                                    {{ document.name }} <button mat-icon-button color="primary" (click)="downloadDoc(document)" matTooltip="Baixar"><mat-icon>cloud_download</mat-icon></button>
+                                    {{ document.name }} <button mat-icon-button color="primary"
+                                        (click)="downloadDoc(document)"
+                                        matTooltip="Baixar"><mat-icon>cloud_download</mat-icon></button>
                                 </mat-card-content>
                             </mat-card>
                         </div>
@@ -100,7 +102,72 @@
             &nbsp; Pagamentos
         </ng-template>
 
-        <p>{{ contract.id }}</p>
+        <mat-card>
+            <mat-card-content>
+                <div class="section-title">
+                    <mat-label>Cadastrar Pagamento</mat-label>
+                </div>
+                <form [formGroup]="paymentForm">
+                    <div class="select-container">
+                        <mat-form-field>
+                            <mat-label>Valor do Pagamento</mat-label>
+                            <span matTextPrefix>R$ &nbsp;</span>
+                            <input matInput formControlName="value" currencyMask
+                                [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Data de Pagamento</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="paymentDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <button mat-mini-fab (click)="addPayment()" type="button" color="primary">
+                            <mat-icon>add</mat-icon></button>
+                    </div>
+                </form>
+
+                <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
+
+                <div class="mat-elevation-z1">
+                    <div class="filter-container">
+                        <mat-form-field class="small-input">
+                            <input matInput #filtro (keyup)="filtrar($event)" placeholder="Filtrar">
+                            <button matSuffix mat-icon-button aria-label="Clear"
+                                (click)="filtro.value=''; filtrar($event)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                    <table mat-table [dataSource]="dataSource" matSort matSortActive="data" matSortDisableClear matSortDirection="desc">
+                        <!-- Data Column -->
+                        <ng-container matColumnDef="data">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Data de Pagamento </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.paymentDate | formatDate }} </td>
+                        </ng-container>
+                        <!-- Valor Column -->
+                        <ng-container matColumnDef="valor">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.value | formatCurrencyBr }} </td>
+                        </ng-container>
+                        <!-- Ações Column -->
+                        <ng-container matColumnDef="acoes">
+                            <th mat-header-cell *matHeaderCellDef> Ações </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button type="button" (click)="excluirPagamento(element)">
+                                    <mat-icon color="accent">delete</mat-icon></button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+            </mat-card-content>
+        </mat-card>
     </mat-tab>
 
     <mat-tab>
@@ -108,8 +175,13 @@
             <mat-icon>support_agent</mat-icon>
             &nbsp; Chamados
         </ng-template>
-
-
+        <mat-card>
+            <mat-card-content>
+                <div class="section-title">
+                    <mat-label>Chamados do contrato</mat-label>
+                </div> Em desenvolvimento...
+            </mat-card-content>
+        </mat-card>
     </mat-tab>
 
 </mat-tab-group>

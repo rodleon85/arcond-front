@@ -5,9 +5,6 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BoardUserComponent } from './board-user/board-user.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { EquipmentComponent } from './equipment/equipment.component';
 import { BrandComponent } from './equipment/brand/brand.component';
 import { ModelComponent } from './equipment/model/model.component';
@@ -26,9 +23,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: NewRegisterComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'user', component: BoardUserComponent, canActivate: [AuthGuard] },
-  { path: 'mod', component: BoardModeratorComponent, canActivate: [AuthGuard] },
-  { path: 'admin', component: BoardAdminComponent, canActivate: [AuthGuard] },
   { path: 'eqp', component: EquipmentComponent, canActivate: [AuthGuard] },
   { path: 'brand', component: BrandComponent, canActivate: [AuthGuard] },
   { path: 'model', component: ModelComponent, canActivate: [AuthGuard] },

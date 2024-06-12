@@ -17,7 +17,7 @@ mat-expansion-panel {
 
 mat-sidenav {
     background-color: lightgray;
-    width: 30%;
+    width: 25%;
 }
 
 .mat-expansion-panel:not([class*='mat-elevation-z']) {
