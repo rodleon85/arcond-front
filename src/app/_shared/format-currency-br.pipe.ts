@@ -8,7 +8,7 @@ export class FormatCurrencyBrPipe implements PipeTransform {
 
   private currencyPipe = new CurrencyPipe('pt-BR');
 
-  transform(value: any, currencyCode: string = 'BRL', symbolDisplay: boolean = true, digits: string = '1.2-2'): string | null {
+  transform(value: any, currencyCode: string = 'BRL', symbolDisplay: 'code' | 'symbol' | 'symbol-narrow' = 'symbol', digits: string = '1.2-2'): string | null {
     if (value == null) return null;
     return this.currencyPipe.transform(value, currencyCode, symbolDisplay, digits);
   }

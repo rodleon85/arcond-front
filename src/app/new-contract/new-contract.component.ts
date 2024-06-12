@@ -260,13 +260,12 @@ export class NewContractComponent implements OnInit {
   reloadDataSource(): void {
     this.equipmentService.getAllEquipments().subscribe({
       next: response => {
-        console.log(response);
         this.dataSource.data = response;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
       error: error => {
-        console.log(error.error.message);
+        console.error(error.error.message);
       }
     });
   }
@@ -367,10 +366,8 @@ export class NewContractComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Submit')
     if (this.mainFormGroup.valid) {
       this.spinnerService.show();
-      console.log('valid')
       const firstFormGroup = this.formArray.at(0) as FormGroup;
       this.contract.name = firstFormGroup.get('empnome')?.value;
       this.contract.document = firstFormGroup.get('documento')?.value;
@@ -398,7 +395,6 @@ export class NewContractComponent implements OnInit {
       this.contract.contractEquipmentList = this.dataSourceCadastro.data;
       this.contract.contactList = this.dataSourceContato.data;
       this.contract.contractDocumentList = this.dataSourceDocumentos.data;
-      console.log(this.contract);
       this.contractService.createContract(this.contract).subscribe({
         next: response => {
           this.spinnerService.hide();

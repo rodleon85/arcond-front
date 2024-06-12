@@ -52,7 +52,6 @@ export class NewRegisterComponent  implements OnInit {
       // Call your service method to handle the form submission
       this.authService.register(user).subscribe({
         next: response => {
-          console.log('Equipment saved successfully', response);
           // Reset the form or handle success response
           this.reloadPage();
         },
@@ -72,7 +71,6 @@ export class NewRegisterComponent  implements OnInit {
   remove(id: number): void {
     this.userService.adminDeleteUser(id).subscribe({
       next: response => {
-        console.log('Equipment saved successfully', response);
         // Reset the form or handle success response
         this.reloadPage();
       },

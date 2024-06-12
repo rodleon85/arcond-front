@@ -49,7 +49,6 @@ export class BrandComponent implements OnInit {
       // Call your service method to handle the form submission
       this.equipmentService.saveBrand(this.brand).subscribe({
         next: response => {
-          console.log('Brand saved successfully', response);
           // Reset the form or handle success response
           this.reloadPage();
         },
@@ -69,7 +68,6 @@ export class BrandComponent implements OnInit {
   remove(id: number): void {
     this.equipmentService.deleteBrand(id).subscribe({
       next: response => {
-        console.log('Brand saved successfully', response);
         // Reset the form or handle success response
         this.reloadPage();
       },

@@ -24,7 +24,6 @@ export class RegisterComponent {
   
     this.authService.register(new User(0, username, password, email, 3, '')).subscribe({
       next: data => {
-        console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
       },

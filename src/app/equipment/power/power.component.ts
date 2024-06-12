@@ -49,7 +49,6 @@ export class PowerComponent implements OnInit {
       // Call your service method to handle the form submission
       this.equipmentService.savePower(this.power).subscribe({
         next: response => {
-          console.log('Power saved successfully', response);
           // Reset the form or handle success response
           this.reloadPage();
         },
@@ -69,7 +68,6 @@ export class PowerComponent implements OnInit {
   remove(id: number): void {
     this.equipmentService.deletePower(id).subscribe({
       next: response => {
-        console.log('Power saved successfully', response);
         // Reset the form or handle success response
         this.reloadPage();
       },

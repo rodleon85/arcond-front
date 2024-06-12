@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Contract } from '../_models/Contract';
 import { environment } from 'src/environments/environment';
+import { Payment } from '../_models/Payment';
 
 const API_URL = environment.apiUrl + '/api/contract/';
 
@@ -32,4 +33,21 @@ export class ContractService {
   deleteContract(id: number): Observable<void> {
     return this.http.delete<void>(API_URL + `admin/${id}`);
   }
+
+  createPayment(payment: Payment): Observable<Payment> {
+    return this.http.post<Payment>(API_URL + `payment/admin/`, payment, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+
+  deletePayment(contractId: number, id: number): Observable<void> {
+    return this.http.delete<void>(API_URL + `${contractId}/payment/admin/${id}`);
+  }
+
+  getPayments(id: number): Observable<Payment[]> {
+    return this.http.get<Payment[]>(API_URL + `payment/admin/${id}`);
+  }
+
 }

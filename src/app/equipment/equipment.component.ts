@@ -74,7 +74,6 @@ export class EquipmentComponent implements OnInit {
       // Call your service method to handle the form submission
       this.equipmentService.saveEquipment(this.equipment).subscribe({
         next: response => {
-          console.log('Equipment saved successfully', response);
           // Reset the form or handle success response
           this.reloadPage();
         },
@@ -94,7 +93,6 @@ export class EquipmentComponent implements OnInit {
   remove(id: number): void {
     this.equipmentService.deleteEquipment(id).subscribe({
       next: response => {
-        console.log('Equipment saved successfully', response);
         // Reset the form or handle success response
         this.reloadPage();
       },

@@ -21,14 +21,14 @@
                         <div class="flex-item">Assinada: <span
                                 *ngIf="contract.signature; else notSigned">SIM</span><ng-template
                                 #notSigned>NÃO</ng-template></div>
-                        <div class="flex-item">Valor Inicial: {{ contract.startValue | formatCurrencyBr }}</div>
-                        <div class="flex-item">Valor Atual: {{ contract.currentValue | formatCurrencyBr }}</div>
-                        <div class="flex-item">Custo de Instalação {{ contract.installationValue | formatCurrencyBr }}
+                        <div class="flex-item">Valor Inicial: {{ contract.startValue | formatCurrencyBr:'BRL':'symbol' }}</div>
+                        <div class="flex-item">Valor Atual: {{ contract.currentValue | formatCurrencyBr:'BRL':'symbol' }}</div>
+                        <div class="flex-item">Custo de Instalação {{ contract.installationValue | formatCurrencyBr:'BRL':'symbol' }}
                         </div>
                         <div class="flex-item">Dia de Vencimento: {{ contract.dueDay }}</div>
-                        <div class="flex-item">Último pagamento: {{ contract.lastPayment }}</div>
+                        <div class="flex-item">Último pagamento: {{ contract.lastPayment | formatDate }}</div>
                         <div class="flex-item">Prazo: {{ contract.period }}&nbsp;meses</div>
-                        <div class="flex-item">Data de Inicio: {{ contract.startDate | date }}</div>
+                        <div class="flex-item">Data de Inicio: {{ contract.startDate | formatDate }}</div>
                         <div class="flex-item">Mês de Reajuste: {{ contract.readjustmentMonth | monthName }}</div>
                     </div>
 
@@ -126,6 +126,9 @@
                         <button mat-mini-fab (click)="addPayment()" type="button" color="primary">
                             <mat-icon>add</mat-icon></button>
                     </div>
+                    <mat-error *ngIf="errorMessage!=''">
+                        {{errorMessage}}
+                    </mat-error>
                 </form>
 
                 <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
@@ -149,7 +152,7 @@
                         <!-- Valor Column -->
                         <ng-container matColumnDef="valor">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
-                            <td mat-cell *matCellDef="let element"> {{ element.value | formatCurrencyBr }} </td>
+                            <td mat-cell *matCellDef="let element"> {{ element.value | formatCurrencyBr:'BRL':'symbol' }} </td>
                         </ng-container>
                         <!-- Ações Column -->
                         <ng-container matColumnDef="acoes">

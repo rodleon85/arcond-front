@@ -106,7 +106,6 @@ export class ContractComponent  implements OnInit {
     this.spinnerService.show();
     this.contractService.getContracts().subscribe({
       next: response => {
-        console.log(response);
         this.dataSource.data = response;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

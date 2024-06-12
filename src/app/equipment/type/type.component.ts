@@ -49,7 +49,6 @@ export class TypeComponent  implements OnInit {
       // Call your service method to handle the form submission
       this.equipmentService.saveType(this.type).subscribe({
         next: response => {
-          console.log('Type saved successfully', response);
           // Reset the form or handle success response
           this.reloadPage();
         },
@@ -69,7 +68,6 @@ export class TypeComponent  implements OnInit {
   remove(id: number): void {
     this.equipmentService.deleteType(id).subscribe({
       next: response => {
-        console.log('Type saved successfully', response);
         // Reset the form or handle success response
         this.reloadPage();
       },

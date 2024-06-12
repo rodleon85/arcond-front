@@ -30,7 +30,7 @@
 
         <ng-container matColumnDef="valor">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Atual </th>
-            <td mat-cell *matCellDef="let element"> {{ element.currentValue | formatCurrencyBr }} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.currentValue | formatCurrencyBr:'BRL':'symbol' }} </td>
         </ng-container>
 
         <ng-container matColumnDef="vencimento">

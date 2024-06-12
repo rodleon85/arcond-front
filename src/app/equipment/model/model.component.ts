@@ -49,7 +49,6 @@ export class ModelComponent implements OnInit {
       // Call your service method to handle the form submission
       this.equipmentService.saveModel(this.model).subscribe({
         next: response => {
-          console.log('Model saved successfully', response);
           // Reset the form or handle success response
           this.reloadPage();
         },
@@ -69,7 +68,6 @@ export class ModelComponent implements OnInit {
   remove(id: number): void {
     this.equipmentService.deleteModel(id).subscribe({
       next: response => {
-        console.log('Model saved successfully', response);
         // Reset the form or handle success response
         this.reloadPage();
       },

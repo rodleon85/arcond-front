@@ -38,6 +38,7 @@ export class ContractManageComponent implements OnInit, AfterViewInit {
     supportRequestList: []
   };
 
+  errorMessage = '';
   ELEMENT_DATA: Payment[] = [];
   dataSource = new MatTableDataSource<Payment>;
   displayedColumns: string[] = ['data', 'valor', 'acoes'];
@@ -118,33 +119,58 @@ export class ContractManageComponent implements OnInit, AfterViewInit {
   }
 
   addPayment() {
+    if(this.paymentForm.value.value === 0 || this.paymentForm.value.paymentDate === '') {
+      this.errorMessage = 'Dados incompletos';
+      return;
+    }
     if (this.contractId) {
       const payment: Payment = {
         value: this.paymentForm.value.value,
-        paymentDate: this.paymentForm.value.paymentDate
+        paymentDate: this.paymentForm.value.paymentDate,
+        contractId: Number(this.contractId)
       };
 
-      this.dataSource.data.push(payment);
-      this.dataSource._updateChangeSubscription();
-      
-      
-      // this.table.renderRows();
-
-      // this.contractService.addPayment(Number(this.contractId), payment).subscribe({
-      //   next: (newPayment) => {
-      //     this.contract.paymentList.push(newPayment);
-      //     this.reloadDataSource(this.contract.paymentList);
-      //     this.paymentForm.reset();
-      //   },
-      //   error: (err) => {
-      //     console.error('Error adding payment', err);
-      //   }
-      // });
+      this.contractService.createPayment(payment).subscribe({
+        next: (newPayment) => {
+          this.spinnerService.show();
+          this.updatePaymentList();
+          this.paymentForm.reset();
+        },
+        error: (err) => {
+          console.error('Error adding payment', err);
+          this.spinnerService.hide();
+        }
+      });
     }
   }
 
-  excluirPagamento(_t202: any) {
-    throw new Error('Method not implemented.');
+  excluirPagamento(payment: Payment) {
+    if (payment.id) {
+      this.spinnerService.show();
+      this.contractService.deletePayment(Number(this.contractId),payment.id).subscribe({
+        next: () => {
+          this.updatePaymentList();
+        },
+        error: (err) => {
+          console.error('Error deleting payment', err);
+          this.spinnerService.hide();
+        }
+      });
+    }
+  }
+
+  updatePaymentList() {
+    this.contractService.getPayments(Number(this.contractId)).subscribe({
+      next: (payments) => {
+        this.contract.paymentList = payments;
+        this.reloadDataSource(this.contract.paymentList);
+        this.spinnerService.hide();
+      },
+      error: (err) => {
+        console.error('Error updating payment list', err);
+        this.spinnerService.hide();
+      }
+    });
   }
 
 }

@@ -12,17 +12,11 @@ export class CpfCnpjMaskDirective {
   @HostListener('input', ['$event'])
   onInputChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    console.log(input.value);
     let value = input.value.replace(/\D/g, '');
-    console.log(value);
 
     if (value.length <= 11) {
-        console.log('value.length <= 11');
-        console.log(this.renderer.setAttribute(this.el.nativeElement, 'mask', this.cpfMask));
       this.renderer.setAttribute(this.el.nativeElement, 'mask', this.cpfMask);
     } else {
-        console.log('value.length > 11');
-        console.log(this.renderer.setAttribute(this.el.nativeElement, 'mask', this.cpfMask));
       this.renderer.setAttribute(this.el.nativeElement, 'mask', this.cnpjMask);
     }
   }
