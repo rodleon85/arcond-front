@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://www.arcond.com.br'
+    apiUrl: 'https://arcond-app-13968c2f3430.herokuapp.com'
 };

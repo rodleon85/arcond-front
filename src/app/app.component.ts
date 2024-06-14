@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { StorageService } from './_services/storage.service';
 import { AuthService } from './_services/auth.service';
 import { EventBusService } from './_shared/event-bus.service';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,8 @@ export class AppComponent {
 
   eventBusSub?: Subscription;
 
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+  
   constructor(
     private storageService: StorageService,
     private authService: AuthService,
@@ -55,6 +58,12 @@ export class AppComponent {
     this.username = '';
     this.router.navigate(['']);
     window.location.reload(); // navigate to home page
+  }
+
+  closeSidenav(): void {
+    if (window.innerWidth <= 768) { // Adjust this value based on your mobile breakpoint
+      this.opened = false;
+    }
   }
 
 }

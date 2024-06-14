@@ -13,8 +13,8 @@
 
 <mat-sidenav-container>
   <mat-sidenav mode="side" [(opened)]="opened">
-    <button mat-button [routerLink]="['/mycontracts']" *ngIf="userRights">Meus Contratos</button><br/>
-    <button mat-button [routerLink]="['/register']" *ngIf="userRights">Meus Dados</button><br/>
+    <button mat-button [routerLink]="['/mycontracts']" *ngIf="userRights" (click)="closeSidenav()">Meus Contratos</button><br/>
+    <button mat-button [routerLink]="['/register']" *ngIf="userRights" (click)="closeSidenav()">Meus Dados</button><br/>
 
     <mat-expansion-panel *ngIf="adminRights || moderatorRights">
       <mat-expansion-panel-header>
@@ -22,8 +22,8 @@
           Contratos
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <button mat-button [routerLink]="['/contracts']">Lista</button>
-      <button mat-button [routerLink]="['contracts/new']">Cadastrar</button>
+      <button mat-button [routerLink]="['/contracts']" (click)="closeSidenav()">Lista</button>
+      <button mat-button [routerLink]="['contracts/new']" (click)="closeSidenav()">Cadastrar</button>
     </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="adminRights || moderatorRights">
@@ -32,11 +32,11 @@
           Equipamentos
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <button mat-button [routerLink]="['/eqp']">Cadastrar</button>
-      <button mat-button [routerLink]="['/brand']" *ngIf="adminRights">Marcas</button>
-      <button mat-button [routerLink]="['/model']" *ngIf="adminRights">Modelos</button>
-      <button mat-button [routerLink]="['/power']" *ngIf="adminRights">Potências</button>
-      <button mat-button [routerLink]="['/type']" *ngIf="adminRights">Tipos</button>
+      <button mat-button [routerLink]="['/eqp']" (click)="closeSidenav()">Cadastrar</button>
+      <button mat-button [routerLink]="['/brand']" *ngIf="adminRights" (click)="closeSidenav()">Marcas</button>
+      <button mat-button [routerLink]="['/model']" *ngIf="adminRights" (click)="closeSidenav()">Modelos</button>
+      <button mat-button [routerLink]="['/power']" *ngIf="adminRights" (click)="closeSidenav()">Potências</button>
+      <button mat-button [routerLink]="['/type']" *ngIf="adminRights" (click)="closeSidenav()">Tipos</button>
     </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="adminRights">
@@ -45,8 +45,8 @@
           <span class="right">Usuários</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <button mat-button [routerLink]="['/register']">Cadastrar</button>
-      <button mat-button [routerLink]="['/usercontract']">Vincular a Contrato</button>
+      <button mat-button [routerLink]="['/register']" (click)="closeSidenav()">Cadastrar</button>
+      <button mat-button [routerLink]="['/usercontract']" (click)="closeSidenav()">Vincular a Contrato</button>
     </mat-expansion-panel>
   </mat-sidenav>
   <mat-sidenav-content>

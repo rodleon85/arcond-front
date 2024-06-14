@@ -1,4 +1,3 @@
-
 .navbar {
     justify-content: space-between;
 }
@@ -24,3 +23,9 @@ mat-sidenav {
     box-shadow: none;
 }
 
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+    mat-sidenav {
+        width: 100%;
+    }
+}

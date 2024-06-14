@@ -104,6 +104,7 @@ export class NewContractComponent implements OnInit {
         this._formBuilder.group({
           empnome: ['', Validators.required],
           documento: ['', Validators.required],
+          addressId: [null],
           cep: ['', Validators.required],
           logradouro: ['', Validators.required],
           numero: ['', [Validators.required, Validators.maxLength(6)]],
@@ -169,7 +170,8 @@ export class NewContractComponent implements OnInit {
             bairro: contract.address.neighborhood,
             cidade: contract.address.city,
             uf: contract.address.state,
-            cep: contract.address.zipcode
+            cep: contract.address.zipcode,
+            addressId: contract.address.id
           });
           this.dataSourceCadastro.data = contract.contractEquipmentList;
           this.updateViewTable(this.tableCadastro, this.dataSourceCadastro);
@@ -369,6 +371,7 @@ export class NewContractComponent implements OnInit {
     if (this.mainFormGroup.valid) {
       this.spinnerService.show();
       const firstFormGroup = this.formArray.at(0) as FormGroup;
+      this.contract.id = this.contractId ? Number(this.contractId) : undefined;
       this.contract.name = firstFormGroup.get('empnome')?.value;
       this.contract.document = firstFormGroup.get('documento')?.value;
       this.contract.proposal = new String(firstFormGroup.get('proposta')?.value);
@@ -384,6 +387,7 @@ export class NewContractComponent implements OnInit {
       }
       this.contract.readjustmentMonth = firstFormGroup.get('reajuste')?.value;
       this.contract.address = {
+        id: firstFormGroup.get('addressId')?.value,
         address: firstFormGroup.get('logradouro')?.value,
         number: firstFormGroup.get('numero')?.value,
         complement: firstFormGroup.get('complemento')?.value,
@@ -401,6 +405,7 @@ export class NewContractComponent implements OnInit {
           this.router.navigate(['/contracts']);
         },
         error: error => {
+          this.spinnerService.hide();
           console.error('Error saving Equipment', error);
         }
       });

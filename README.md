@@ -18,13 +18,13 @@ For JWT – Token based Authentication with Rest API, we’re gonna call 2 endpo
 
 You can take a look at following flow to have an overview of Requests and Responses that Angular 16 JWT Authentication & Authorization Client will make or receive.
 
-![angular-16-jwt-authentication-authorization-flow](angular-16-jwt-authentication-authorization-flow.png)
+![arcond-frontentication-authorization-flow](arcond-frontentication-authorization-flow.png)
 
 ## Angular JWT App Diagram with Router and HttpInterceptor
-![angular-16-jwt-authentication](angular-16-jwt-authentication.png)
+![arcond-frontentication](arcond-frontentication.png)
 
 For more detail, please visit the tutorial:
-> [Angular 16 JWT Authentication & Authorization with Web API example](https://www.bezkoder.com/angular-16-jwt-auth/)
+> [Angular 16 JWT Authentication & Authorization with Web API example](https://www.bezkoder.com/arcond-front/)
 
 > [Angular 16 Logout when Token is expired](https://www.bezkoder.com/logout-when-token-expired-angular-16/)
 
@@ -36,7 +36,7 @@ For more detail, please visit the tutorial:
 
 ## With Node.js Express back-end
 
-> [Angular 16 + Node.js Express: JWT Authentication and Authorization example](https://www.bezkoder.com/node-js-angular-16-jwt-auth/)
+> [Angular 16 + Node.js Express: JWT Authentication and Authorization example](https://www.bezkoder.com/node-js-arcond-front/)
 
 Run `ng serve --port 8081` for a dev server. Navigate to `http://localhost:8081/`.
 
